@@ -29,8 +29,11 @@
     
     [self.player prepareToPlay];
     [self.player play];
-    
+    //  开始监听音频输出源的变化
     [[YuAudioOutputRouteManager sharedManager] startObserveAudioOutputRouteChange];
+    //  打断其他app播放音乐
+    //  设定音频行为Playback
+    [[YuAudioOutputRouteManager sharedManager] startAudioPlayWithCategoryPlayback];
 }
 
 - (IBAction)stopAction:(id)sender {
@@ -59,8 +62,12 @@
     
     self.playBtn.enabled = YES;
     [self.player stop];
-    
+    //  结束监听音频输出源的变化
     [[YuAudioOutputRouteManager sharedManager] stopObserveAudioOutputRouteChange];
+    //  回复之前打断播放事件
+    //  关闭当前音频行为，并且向系统发送通知（使被打断的播放继续）
+    [[YuAudioOutputRouteManager sharedManager] stopAudioPlayWithNotifyOthersOnDeactivation];
+    
 }
 
 @end

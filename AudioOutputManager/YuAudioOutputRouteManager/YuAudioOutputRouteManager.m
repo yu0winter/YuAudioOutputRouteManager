@@ -111,4 +111,25 @@ static id sharedManager = nil;
     }
 }
 
+#pragma mark └ AVAudioSessionCategory 设定音频行为
+- (void)startAudioPlayWithCategoryPlayback {
+    
+    NSError *error;
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+    [[AVAudioSession sharedInstance] setActive:YES error:&error];
+    
+    if (error) {
+        NSLog(@"%s error:%@",__func__,error.userInfo);
+    }
+}
+
+- (void)stopAudioPlayWithNotifyOthersOnDeactivation {
+    
+    NSError *error;
+    [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&error];
+    if (error) {
+        NSLog(@"%s error:%@",__func__,error.userInfo);
+    }
+}
+
 @end
